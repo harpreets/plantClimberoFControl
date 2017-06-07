@@ -28,6 +28,7 @@ void ofApp::setup(){
     memset(bytesReadString, 0, 4);
  
     isTimeStarted = true;
+    ofLog() << "Time calc has been started";
     
     currentLight = 0; //zero for no lights
     currMin = prevMin = 0;
@@ -56,6 +57,7 @@ void ofApp::update(){
                 //turn on at 6am
                 if(currentLight != 0){
                     serial.writeByte(currentLight);
+                    ofLog() << "done turn on";
                 }
             }else if( (currLocalHour == 19) && (currLocalMin == 0) ){
                 //turn off the light at this hour
@@ -63,6 +65,7 @@ void ofApp::update(){
                     //turn off the current light
                     serial.writeByte(currentLight);
                     turnOffAllLights(); //send '5'
+                    ofLog() << "turn off";
                 }
             }
             
