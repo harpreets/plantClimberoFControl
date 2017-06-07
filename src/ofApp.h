@@ -1,0 +1,50 @@
+#pragma once
+
+#include "ofMain.h"
+
+class ofApp : public ofBaseApp{
+    
+public:
+    void setup();
+    void update();
+    void draw();
+    
+    void keyPressed(int key);
+    void keyReleased(int key);
+    void mouseMoved(int x, int y );
+    void mouseDragged(int x, int y, int button);
+    void mousePressed(int x, int y, int button);
+    void mouseReleased(int x, int y, int button);
+    void mouseEntered(int x, int y);
+    void mouseExited(int x, int y);
+    void windowResized(int w, int h);
+    void dragEvent(ofDragInfo dragInfo);
+    void gotMessage(ofMessage msg);
+    
+    void turnOffAllLights();
+    
+    bool		bSendSerialMessage;			// a flag for sending serial
+    char		bytesRead[3];				// data from serial, we will be trying to read 3
+    char		bytesReadString[4];			// a string needs a null terminator, so we need 3 + 1 bytes
+    int			nBytesRead;					// how much did we read?
+    int			nTimesRead;					// how many times did we read?
+    float		readTime;					// when did we last read?
+    
+    bool isTimeStarted;
+    
+    uint64_t startTime;
+    uint64_t elapsedTime;
+    
+    uint64_t elapsedsecs;
+    uint64_t elapsedHours;
+    uint64_t elapsedMins;
+    uint64_t elapsedDays;
+    
+    //minute polling
+    uint64_t prevMin;
+    uint64_t currMin;
+    int currLocalHour; int currLocalMin;
+    unsigned char currentLight;
+    
+    ofSerial	serial;
+};
