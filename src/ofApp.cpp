@@ -53,13 +53,13 @@ void ofApp::update(){
             currLocalMin = ofGetMinutes();
             
             
-            if( (currLocalHour == 7) && (currLocalMin == 0) ){
+            if( (currLocalHour == 5) && (currLocalMin == 0) ){
                 //turn on at 6am
                 if(currentLight != 0){
                     serial.writeByte(currentLight);
                     ofLog() << "done turn on";
                 }
-            }else if( (currLocalHour == 19) && (currLocalMin == 0) ){
+            }else if( (currLocalHour == 23) && (currLocalMin == 0) ){
                 //turn off the light at this hour
                 if(currentLight != 0){
                     //turn off the current light
