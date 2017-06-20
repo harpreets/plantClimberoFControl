@@ -32,14 +32,6 @@ public:
     
     bool isTimeStarted;
     
-    uint64_t startTime;
-    uint64_t elapsedTime;
-    
-    uint64_t elapsedsecs;
-    uint64_t elapsedHours;
-    uint64_t elapsedMins;
-    uint64_t elapsedDays;
-    
     //minute polling
     uint64_t prevMin;
     uint64_t currMin;

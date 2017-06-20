@@ -1,7 +1,7 @@
 
 //PUMP should turn on separately before the lights
 //Local time should be set on the system
-//currentLight should be set i.e at least one light should have been set after starting the application
+//currentLight should be set i.e at least one light should have been set after starting the application (set by turning on and off)
 
 #include "ofApp.h"
 
@@ -31,33 +31,27 @@ void ofApp::setup(){
     ofLog() << "Time calc has been started";
     
     currentLight = 0; //zero for no lights
-    currMin = prevMin = 0;
+    prevMin = -1;
+    currMin = ofGetMinutes();
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    //look at time calc
     if(isTimeStarted){
-        elapsedTime  =  (ofGetElapsedTimeMillis() - startTime); //convert to secs
-        elapsedsecs  =  ((elapsedTime /  1000)                 % 60);
-        elapsedMins  =  ((elapsedTime / (1000 * 60))           % 60);
-        elapsedHours =  ((elapsedTime / (1000 * 60 * 60))      % 24); //hours in this case set to zero after 24
-        elapsedDays  =  ((elapsedTime / (1000 * 60 * 60 * 24))     ); //days keep on counting in this case
-        
-        currMin = elapsedMins;
+        currMin = ofGetMinutes();
         
         //check every min for local time change
         if(currMin != prevMin){
             //check hour and minute of day
             currLocalHour = ofGetHours();
             currLocalMin = ofGetMinutes();
-            
+            ofLog() << "Current Time: "<<currLocalHour << ":" << currLocalMin<<"\n";
             
             if( (currLocalHour == 5) && (currLocalMin == 0) ){
-                //turn on at 6am
+                //turn on at 5am
                 if(currentLight != 0){
                     serial.writeByte(currentLight);
-                    ofLog() << "done turn on";
+                    ofLog() << "Turned on: "<<currentLight << "at " << currLocalHour << ":" << currLocalMin;
                 }
             }else if( (currLocalHour == 23) && (currLocalMin == 0) ){
                 //turn off the light at this hour
@@ -65,7 +59,7 @@ void ofApp::update(){
                     //turn off the current light
                     serial.writeByte(currentLight);
                     turnOffAllLights(); //send '5'
-                    ofLog() << "turn off";
+                    ofLog() << "Turned off: "<<currentLight << "at " << currLocalHour << ":" << currLocalMin;
                 }
             }
             
@@ -85,7 +79,6 @@ void ofApp::draw(){
 void ofApp::keyPressed(int key){
     if(key==' '){
         isTimeStarted = !isTimeStarted;
-        startTime = ofGetElapsedTimeMillis();
     }
     
     if(key=='w'){
